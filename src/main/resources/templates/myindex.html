@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html;" charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vant@2.0/lib/vant.min.js"></script>
+</head>
+<body>
+
+<h1 th:text="${myname}">hello joy</h1>
+<h1 th:text="${name}"></h1>
+<div id="app">
+    <div class="container">
+        <div class="input-group">
+            <input type="text" v-model="queryString" class="form-control input-lg"><span class="input-group-addon btn btn-primary" @click="search()">搜索</span>
+        </div>
+        <span>{{queryString}}</span>
+    </div>
+    <div v-if="this.flag">
+        <table border="1px">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>书名</th>
+                <th>价格</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="book in records">
+                <th >{{book.id}}</th>
+                <th >{{book.bookName}}</th>
+                <th >{{book.bookPrice}}</th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--<table>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>书名</th>
+        <th>价格</th>
+    </tr>
+    </thead>
+    <tbody th:remove="all-but-first" >
+        <tr th:each="book : ${book}">
+            <th th:text="${book.id}"></th>
+            <th th:text="${book.bookName}"></th>
+            <th th:text="${book.bookPrice}"></th>
+        </tr>
+        &lt;!&ndash;<tr>
+            <th>001</th>
+            <th>倚天屠龙记</th>
+        </tr>
+        <tr>
+            <th>002</th>
+            <th>西游记</th>
+            <th>35.0</th>
+        </tr>&ndash;&gt;
+    </tbody>
+</table>-->
+<script>
+    var Vue = window.Vue;
+    var vant = window.vant;
+    var axios = window.axios;
+    // 注册组件
+    Vue.use(vant);
+
+    new Vue({
+        el: '#app',
+        data(){
+            return {
+                queryString:"",
+                records:[],
+                flag:false,
+            }
+        },
+        watch: {
+
+        },
+        methods: {
+            search() {
+                var self_ = this;
+                var queryString = this.queryString;
+                axios.get("http://localhost:8088/query?queryString="+queryString).then(function(response){
+                    self_.records = response.data;
+                    if(self_.records!=null){
+                        self_.flag=true;
+                    }
+                });
+
+            }
+        },
+        mounted: function() {
+
+        }
+
+    });
+
+</script>
+</body>
+</html>

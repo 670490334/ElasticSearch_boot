@@ -1,0 +1,10 @@
+server:
+  port: 8088
+  #不让springboot帮我们生成whitelable这个页面，我们自定义
+  error:
+    whitelabel:
+      enabled: false
+spring:
+  profiles:
+    active: dev
+

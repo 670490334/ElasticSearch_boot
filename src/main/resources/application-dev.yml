@@ -1,0 +1,40 @@
+spring:
+  resources:
+    static-locations: classpath:/static,classpath:/templates
+  devtools:
+    restart:
+      enabled: true
+      exclude: static/**
+  #数据源
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/xunwu?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+  #ElasticSearch配置
+  data:
+    elasticsearch:
+      #配9300，访问是否启动成功看9200
+      cluster-nodes: 192.168.3.5:9300
+      cluster-name: elasticsearch
+      repositories:
+        enabled: true
+  #thymeleaf
+  thymeleaf:
+    cache: false
+    mode: HTML5
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+  #jpa
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+  session:
+    store-type: redis
+#security:
+#  basic:
+#    enabled: false
+#  这是1.5的版本关闭http的方式，2.x版本需要使用代码去继承WebSecurityConfigurerAdapter重写他的configure(http)方法
